@@ -49,12 +49,12 @@
                            </span>
                            @endif
                         </div>
-                        <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }}">
+                        <div class="form-group {{ ($errors->has('email') && Session::get('last-attempt')=='register') ? ' has-error' : '' }}">
                            <div class="icon-addon addon-md">
-                              <input name="email" type="text" placeholder="Enter your email address" class="form-control" id="email" value="{{ old('email') }}" required>
+                              <input name="email" type="text" placeholder="Enter your email address" class="form-control" id="email" value="@if(Session::get('last-attempt')=='register'){{old('email')}}@endif" required>
                               <label for="email" class="glyphicon" rel="tooltip" title="Email"><img src="image/icon/email_icon.png"></label>
                            </div>
-                           @if ($errors->has('email'))
+                           @if ($errors->has('email') && Session::get('last-attempt')=='register')
                            <span class="help-block">
                            {{ $errors->first('email') }}
                            </span>
@@ -357,12 +357,12 @@
                <div class="modal-body">
                   <form method="POST" action="{{ route('login') }}">
                      {{ csrf_field() }}
-                     <div class="form-group {{ $errors->has('email') ? ' has-error' : '' }} has-feedback">
+                     <div class="form-group {{ ($errors->has('email') && Session::get('last-attempt')=='login') ? ' has-error' : '' }} has-feedback">
                         <div class="">
-                           <input name="email" type="text" class="form-control modal-input" placeholder="Email Address" value="{{ old('email') }}" required>
+                           <input name="email" type="text" class="form-control modal-input" placeholder="Email Address" value="@if(Session::get('last-attempt')=='login'){{old('email')}}@endif" required>
                            <span class="glyphicon form-control-feedback"><i class="fa fa-black fa-envelope-o" aria-hidden="true"></i></span>
                         </div>
-                        @if ($errors->has('email'))
+                        @if ($errors->has('email') && Session::get('last-attempt')=='login')
                         <span class="help-block">
                         {{ $errors->first('email') }}
                         </span>
